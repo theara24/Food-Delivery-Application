@@ -5,4 +5,7 @@ public interface MenuItem {
     double getPrice();
     String getDescription();
     String getDetails();
+    default boolean hasCustomization() {
+        return false;
+    }
 }

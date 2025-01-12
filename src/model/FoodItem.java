@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor // Fix: Add no-args constructor
+@NoArgsConstructor
 public class FoodItem implements MenuItem {
     private String name;
     private double price;
