@@ -1,13 +1,8 @@
 package model;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
 public class User {
     private int userId;
     private String name;
@@ -26,6 +21,8 @@ public class User {
         System.out.println("Order History for " + name + ":");
         orderHistory.forEach(order -> System.out.println(order.getOrderDetails()));
     }
+
+    public String getName() {
+        return name;
+    }
 }
-
-

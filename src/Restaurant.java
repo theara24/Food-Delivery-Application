@@ -1,7 +1,7 @@
 package model;
 
-import intterfaces.MenuItem;
-import intterfaces.OrderProcessor;
+import interfaces.MenuItem;
+import interfaces.OrderProcessor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,23 +18,20 @@ public class Restaurant implements OrderProcessor {
         menu.add(item);
     }
 
-    public void viewMenu() {
-        menu.forEach(item -> System.out.println(item.getDetails()));
+    @Override
+    public void processOrder(Order order) {
+        orders.add(order);
+        order.setStatus("Preparing");
     }
 
     public MenuItem getMenuItemByName(String itemName) {
-        for (MenuItem item : menu) {
-            if (item.getName().equalsIgnoreCase(itemName)) {
-                return item;
-            }
-        }
-        return null;
+        return menu.stream()
+                .filter(item -> item.getName().equalsIgnoreCase(itemName))
+                .findFirst()
+                .orElse(null);
     }
 
-    @Override
-    public void processOrder(Order order) {
-        System.out.println("Processing order: " + order.getOrderDetails());
-        order.setStatus("Preparing");
-        System.out.println("Order status updated to: " + order.getStatus());
+    public void viewMenu() {
+        menu.forEach(item -> System.out.println(item.getDetails()));
     }
 }

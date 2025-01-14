@@ -1,4 +1,4 @@
-package intterfaces;
+package interfaces;
 
 public interface MenuItem {
     String getName();

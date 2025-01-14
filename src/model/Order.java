@@ -1,6 +1,6 @@
 package model;
 
-import intterfaces.MenuItem;
+import interfaces.MenuItem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor // Fix: Ensure no-args constructor exists
+@NoArgsConstructor
 @ToString
 public class Order {
     private int orderId;

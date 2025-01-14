@@ -1,6 +1,6 @@
 package model;
 
-import intterfaces.MenuItem;
+import interfaces.MenuItem;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
