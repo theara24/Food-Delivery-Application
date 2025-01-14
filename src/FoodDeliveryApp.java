@@ -7,11 +7,6 @@ import java.util.Scanner;
 
 public class FoodDeliveryApp {
 
-    private static final int VIEW_MENU = 1;
-    private static final int PLACE_ORDER = 2;
-    private static final int VIEW_ORDER_HISTORY = 3;
-    private static final int EXIT = 4;
-
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -25,23 +20,26 @@ public class FoodDeliveryApp {
 
         boolean exit = false;
         while (!exit) {
-            int choice = showMainMenu();
+            view.displayMainMenu();
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
             switch (choice) {
-                case VIEW_MENU:
+                case 1:
                     view.displayMenu(controller.getMenu());
                     break;
-                case PLACE_ORDER:
+                case 2:
                     placeOrder(controller, view, user);
                     break;
-                case VIEW_ORDER_HISTORY:
+                case 3:
                     user.viewOrderHistory();
                     break;
-                case EXIT:
+                case 4:
                     exit = true;
-                    System.out.println("\nThank you for using Food Delivery Service! Have a great day!\n");
+                    view.displayMessage("Thank you for using Food Delivery Service! Have a great day!");
                     break;
                 default:
-                    System.out.println("\nInvalid choice. Please try again.");
+                    view.displayErrorMessage("Invalid choice. Please try again.");
             }
         }
 
@@ -49,7 +47,6 @@ public class FoodDeliveryApp {
     }
 
     private static void addMenuItems(RestaurantController controller) {
-        System.out.println("Adding menu items...");
         controller.addMenuItem(new FoodItem("Pizza", 12.99, "Cheesy pizza", new String[]{"Cheese", "Tomato Sauce"}));
         controller.addMenuItem(new FoodItem("Burger", 8.99, "Juicy beef burger", new String[]{"Beef Patty", "Lettuce", "Tomato", "Cheese"}));
         controller.addMenuItem(new FoodItem("Pasta", 10.99, "Creamy Alfredo pasta", new String[]{"Pasta", "Cream", "Parmesan"}));
@@ -60,8 +57,9 @@ public class FoodDeliveryApp {
     }
 
     private static User getUserDetails() {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("\n===========================================");
-        System.out.println("Welcome to the Food Delivery Service!");
+        System.out.println(" Welcome to Food Delivery Service ");
         System.out.println("===========================================");
         System.out.print("Enter your user ID: ");
         int userId = scanner.nextInt();
@@ -72,31 +70,14 @@ public class FoodDeliveryApp {
         return new User(userId, userName);
     }
 
-    private static int showMainMenu() {
-        System.out.println("\n===========================================");
-        System.out.println("               Main Menu                  ");
-        System.out.println("===========================================");
-        System.out.println("1. View Menu");
-        System.out.println("2. Place an Order");
-        System.out.println("3. View Order History");
-        System.out.println("4. Exit");
-        System.out.print("Enter your choice: ");
-        return scanner.nextInt();
-    }
-
     private static void placeOrder(RestaurantController controller, RestaurantView view, User user) {
         Order order = new Order();
         order.setOrderId((int) (Math.random() * 1000));
 
-        System.out.println("\n===========================================");
-        System.out.println("        Place Your Order Below            ");
-        System.out.println("===========================================");
-
         boolean addingItems = true;
         while (addingItems) {
             view.displayMenu(controller.getMenu());
-            System.out.print("Enter item name to add to your order: ");
-            scanner.nextLine();
+            view.displayUserPrompt("Enter item name to add to your order: ");
             String itemName = scanner.nextLine();
             interfaces.MenuItem selectedItem = controller.getMenu().stream()
                     .filter(item -> item.getName().equalsIgnoreCase(itemName))
@@ -105,12 +86,12 @@ public class FoodDeliveryApp {
 
             if (selectedItem != null) {
                 order.addItem(selectedItem);
-                System.out.println(">>> " + itemName + " has been added to your order.\n");
+                view.displaySuccessMessage(itemName + " added to your order.");
             } else {
-                System.out.println("Item not found. Please try again.");
+                view.displayErrorMessage("Item not found. Please try again.");
             }
 
-            System.out.print("Add more items? (yes/no): ");
+            view.displayUserPrompt("Add more items? (yes/no): ");
             if (scanner.nextLine().equalsIgnoreCase("no")) {
                 addingItems = false;
             }
